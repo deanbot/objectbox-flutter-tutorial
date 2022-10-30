@@ -5,6 +5,7 @@ import 'package:objectbox/objectbox.dart';
 class ShopOrder {
   int id;
   int price;
+
   final customer = ToOne<Customer>();
 
   ShopOrder({
@@ -18,6 +19,7 @@ class ShopOrder {
 class Customer {
   int id;
   String name;
+
   @Backlink()
   final orders = ToMany<ShopOrder>();
 
