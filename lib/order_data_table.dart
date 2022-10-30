@@ -3,15 +3,16 @@ import 'package:objectbox/objectbox.dart';
 import 'package:objectbox_tutorial/entities.dart';
 
 class OrderDataTable extends StatefulWidget {
-  final List<ShopOrder> orders;
+  // final List<ShopOrder> orders;
   final void Function(int columnIndex, bool ascending) onSort;
-  final Store store;
+
+  // final Store store;
 
   const OrderDataTable({
     Key? key,
-    required this.orders,
+    // required this.orders,
     required this.onSort,
-    required this.store,
+    // required this.store,
   }) : super(key: key);
 
   @override
@@ -47,7 +48,31 @@ class _OrderDataTableState extends State<OrderDataTable> {
               label: Container(),
             ),
           ],
-          rows: widget.orders.map(
+          rows: [
+            DataRow(
+              cells: [
+                DataCell(
+                  Text('ID'),
+                ),
+                DataCell(
+                  Text(
+                    'CUSTOMER NAME',
+                  ),
+                  onTap: () {},
+                ),
+                DataCell(
+                  Text('\$PRICE'),
+                ),
+                DataCell(
+                  Icon(Icons.delete),
+                  onTap: () {
+                    // TODO : Delete the order from the database
+                  },
+                )
+              ],
+            ),
+          ],
+          /*widget.orders.map(
             (order) {
               return DataRow(
                 cells: [
@@ -90,7 +115,7 @@ class _OrderDataTableState extends State<OrderDataTable> {
                 ],
               );
             },
-          ).toList(),
+          ).toList(),*/
         ),
       ),
     );

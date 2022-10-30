@@ -2,10 +2,9 @@ import 'dart:io';
 
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
-import 'package:objectbox/objectbox.dart';
 import 'package:objectbox_tutorial/objectbox.g.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'entities.dart';
 import 'order_data_table.dart';
@@ -18,19 +17,18 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final faker = Faker();
 
-  late Store _store;
-  late SyncClient _syncClient;
-  bool hasBeenInitialized = false;
+  // late Store _store;
+  // late SyncClient _syncClient;
+  // bool hasBeenInitialized = false;
 
-  late Customer _customer;
-
-  late Stream<List<ShopOrder>> _stream;
+  // late Customer _customer;
+  // late Stream<List<ShopOrder>> _stream;
 
   @override
   void initState() {
     super.initState();
     setNewCustomer();
-    getApplicationDocumentsDirectory().then((dir) {
+/*    getApplicationDocumentsDirectory().then((dir) {
       _store = Store(
         getObjectBoxModel(),
         directory: join(dir.path, 'objectbox'),
@@ -53,13 +51,13 @@ class _HomePageState extends State<HomePage> {
             .map((query) => query.find());
         hasBeenInitialized = true;
       });
-    });
+    });*/
   }
 
   @override
   void dispose() {
-    _store.close();
-    _syncClient.close();
+    // _store.close();
+    // _syncClient.close();
     super.dispose();
   }
 
@@ -79,7 +77,14 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: !hasBeenInitialized
+      body: OrderDataTable(
+        // TODO : Pass in the orders
+        onSort: (columnIndex, ascending) {
+          // TODO : Query the database and sort the data
+        }
+      )
+
+      /*!hasBeenInitialized
           ? Center(
               child: CircularProgressIndicator(),
             )
@@ -92,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                   );
                 }
                 return OrderDataTable(
-                  orders: snapshot.data!,
+                  // orders: snapshot.data!,
                   onSort: (columnIndex, ascending) {
                     final newQueryBuilder = _store.box<ShopOrder>().query();
                     final sortField =
@@ -110,19 +115,20 @@ class _HomePageState extends State<HomePage> {
                   },
                   store: _store,
                 );
-              }),
+              },
+            ),*/
     );
   }
 
   void setNewCustomer() {
-    _customer = Customer(name: faker.person.name());
+    // _customer = Customer(name: faker.person.name());
   }
 
   void addFakeOrderForCurrentCustomer() {
-    final order = ShopOrder(
+    /*final order = ShopOrder(
       price: faker.randomGenerator.integer(500, min: 10),
     );
     order.customer.target = _customer;
-    _store.box<ShopOrder>().put(order);
+    _store.box<ShopOrder>().put(order);*/
   }
 }
