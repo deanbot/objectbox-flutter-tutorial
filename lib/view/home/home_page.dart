@@ -1,13 +1,6 @@
-import 'dart:io';
-
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
-import 'package:objectbox_tutorial/objectbox.g.dart';
-import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
-
-import 'entities.dart';
-import 'order_data_table.dart';
+import 'widgets/widgets.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -64,27 +57,26 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Orders App'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.person_add_alt),
-            onPressed: setNewCustomer,
-          ),
-          IconButton(
-            icon: Icon(Icons.attach_money),
-            onPressed: addFakeOrderForCurrentCustomer,
-          ),
-        ],
-      ),
-      body: OrderDataTable(
-        // TODO : Pass in the orders
-        onSort: (columnIndex, ascending) {
+        appBar: AppBar(
+          title: Text('Orders App'),
+          actions: [
+            IconButton(
+              icon: Icon(Icons.person_add_alt),
+              onPressed: setNewCustomer,
+            ),
+            IconButton(
+              icon: Icon(Icons.attach_money),
+              onPressed: addFakeOrderForCurrentCustomer,
+            ),
+          ],
+        ),
+        body: OrderDataTable(
+            // TODO : Pass in the orders
+            onSort: (columnIndex, ascending) {
           // TODO : Query the database and sort the data
-        }
-      )
+        })
 
-      /*!hasBeenInitialized
+        /*!hasBeenInitialized
           ? Center(
               child: CircularProgressIndicator(),
             )
@@ -117,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             ),*/
-    );
+        );
   }
 
   void setNewCustomer() {

@@ -1,4 +1,4 @@
 import 'bootstrap.dart';
-import 'my_app.dart';
+import 'app/app.dart';
 
 void main() => bootstrap(() => const MyApp());

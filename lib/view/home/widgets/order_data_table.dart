@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:objectbox/objectbox.dart';
-import 'package:objectbox_tutorial/entities.dart';
 
 class OrderDataTable extends StatefulWidget {
   // final List<ShopOrder> orders;
