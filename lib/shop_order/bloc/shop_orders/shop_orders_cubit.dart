@@ -18,8 +18,8 @@ class ShopOrdersCubit extends Cubit<ShopOrdersState> {
   late final StreamSubscription<ShopOrdersResult> _subscription;
 
   @override
-  Future<void> close() {
-    _subscription.cancel();
+  Future<void> close() async {
+    await _subscription.cancel();
     return super.close();
   }
 
@@ -39,7 +39,7 @@ class ShopOrdersCubit extends Cubit<ShopOrdersState> {
       direction: direction,
     ));
     try {
-      _subscription.cancel();
+      await _subscription.cancel();
       _subscription = _shopOrderRepository
           .results(sort: sort, direction: direction)
           .listen(_handleUpdated);
