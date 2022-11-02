@@ -10,7 +10,7 @@ part 'shop_order_create_state.dart';
 class ShopOrderCreateCubit extends Cubit<ShopOrderCreateState> {
   ShopOrderCreateCubit({required ShopOrderRepository shopOrderRepository})
       : _shopOrderRepository = shopOrderRepository,
-        super(ShopOrderCreateInitial());y
+        super(ShopOrderCreateInitial());
   final ShopOrderRepository _shopOrderRepository;
 
   final _faker = Faker();
