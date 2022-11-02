@@ -1,5 +1,6 @@
 import 'package:shop_core/shop_core.dart';
 
+/// Reactive ShopOrder repository
 abstract class ShopOrderRepository {
   const ShopOrderRepository();
 

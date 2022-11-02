@@ -31,25 +31,6 @@ class ShopOrdersCubit extends Cubit<ShopOrdersState> {
     return super.close();
   }
 
-  Future<void> remove(id) async {
-    emit(ShopOrdersUpdating(
-      shopOrders: state.shopOrders,
-      sort: state.sort,
-      direction: state.direction,
-    ));
-    try {
-      // TODO : if dropping 'reactive' emit result
-      _shopOrderRepository.remove(id);
-      await Future.delayed(Duration.zero);
-    } catch (_) {
-      emit(ShopOrdersUpdateError(
-        shopOrders: state.shopOrders,
-        sort: state.sort,
-        direction: state.direction,
-      ));
-    }
-  }
-
   Future<void> sort({
     required ShopOrdersSort sort,
     required ShopOrdersSortDirection direction,

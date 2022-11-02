@@ -1,10 +1,9 @@
 import 'package:shop_core/shop_core.dart';
 import 'package:object_box/object_box.dart';
-import 'package:shop_order_repository/src/utils/utils.dart';
+import 'package:shop_order_repository/src/local/mapping.dart';
 
 class LocalShopOrderRepository extends ShopOrderRepository {
   LocalShopOrderRepository({required ObjectBox objectBox})
-      // TODO : subscribe to box changes?
       : _objectBox = objectBox;
 
   final ObjectBox _objectBox;

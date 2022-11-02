@@ -92,7 +92,9 @@ class _NewOrderIconButton extends StatelessWidget {
 
 /// Show [SnackBar] on customer randomized
 class _CustomerListener extends StatelessWidget {
-  const _CustomerListener({required this.child});
+  const _CustomerListener({
+    required this.child,
+  });
 
   final Widget child;
 
