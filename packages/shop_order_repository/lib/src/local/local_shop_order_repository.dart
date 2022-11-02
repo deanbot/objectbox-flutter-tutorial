@@ -31,9 +31,8 @@ class LocalShopOrderRepository extends ShopOrderRepository {
       )..build();
 
   @override
-  Future<void> remove(String id) {
-    // TODO: implement remove
-    throw UnimplementedError();
+  Future<void> remove(String id) async {
+    _objectBox.store.box<ShopOrderEntity>().remove(int.parse(id));
   }
 
   /// Get [ShopOrder] stream from [QueryBuilder] of [ShopOrderEntity]
