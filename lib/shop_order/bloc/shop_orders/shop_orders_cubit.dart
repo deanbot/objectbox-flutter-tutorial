@@ -11,17 +11,11 @@ class ShopOrdersCubit extends Cubit<ShopOrdersState> {
     required ShopOrderRepository shopOrderRepository,
   })  : _shopOrderRepository = shopOrderRepository,
         super(ShopOrdersInitial()) {
-    _subscription = _shopOrderRepository.list().listen((value) {
-      emit(ShopOrdersUpdated(
-        shopOrders: value,
-        sort: state.sort,
-        direction: state.direction,
-      ));
-    });
+    _subscription = _shopOrderRepository.results().listen(_handleUpdated);
   }
 
   final ShopOrderRepository _shopOrderRepository;
-  late final StreamSubscription<List<ShopOrder>> _subscription;
+  late final StreamSubscription<ShopOrdersResult> _subscription;
 
   @override
   Future<void> close() {
@@ -45,9 +39,10 @@ class ShopOrdersCubit extends Cubit<ShopOrdersState> {
       direction: direction,
     ));
     try {
-      // TODO : if dropping 'reactive' emit result
-      _shopOrderRepository.sort(sort: sort, direction: direction);
-      await Future.delayed(Duration.zero);
+      _subscription.cancel();
+      _subscription = _shopOrderRepository
+          .results(sort: sort, direction: direction)
+          .listen(_handleUpdated);
     } catch (_) {
       emit(ShopOrdersUpdateError(
         sort: prevSort,
@@ -56,4 +51,10 @@ class ShopOrdersCubit extends Cubit<ShopOrdersState> {
       ));
     }
   }
+
+  void _handleUpdated(value) => emit(ShopOrdersUpdated(
+        shopOrders: value.results,
+        sort: value.sort,
+        direction: value.direction,
+      ));
 }

@@ -32,11 +32,11 @@ class _Provider extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        // Create and provide Local Shop Order Repository
+        // Create and provide object box ShopOrderRepository
         RepositoryProvider<ShopOrderRepository>(
           lazy: false,
-          create: (context) => LocalShopOrderRepository(
-            objectBox: context.read<ObjectBox>(),
+          create: (context) => ObjectBoxShopOrderRepository(
+            objectBox: context.read<ObjectBoxProvider>(),
           ),
         ),
       ],

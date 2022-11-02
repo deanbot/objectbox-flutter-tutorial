@@ -1,1 +1,1 @@
-enum ShopOrdersSort { id, price }
+enum ShopOrdersSort { id, price, none }

@@ -15,11 +15,11 @@ Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
   WidgetsFlutterBinding.ensureInitialized();
 
   // create object box store
-  final objectBox = await ObjectBox.create();
+  final objectBox = await ObjectBoxProvider.create();
 
   await runZonedGuarded(
     // provide object box store to app
-    () async => runApp(Provider<ObjectBox>(
+    () async => runApp(Provider<ObjectBoxProvider>(
       child: await builder(),
       create: (_) => objectBox,
       dispose: (_, object) => object.dispose(),

@@ -1,1 +1,1 @@
-export 'src/local/local.dart';
+export 'src/object_box/object_box.dart';

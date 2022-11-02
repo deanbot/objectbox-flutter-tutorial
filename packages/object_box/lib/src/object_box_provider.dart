@@ -1,16 +1,17 @@
 import 'package:path/path.dart' as p;
-import 'package:object_box/objectbox.g.dart';
+import 'package:object_box/object_box.dart';
 import 'package:path_provider/path_provider.dart';
 
-class ObjectBox {
+class ObjectBoxProvider {
   /// The Store of this app.
-  late final Store store;
+  late final Store _store;
+  late final shopOrdersBox = _store.box<ShopOrderEntity>();
 
   // late SyncClient _syncClient;
 
   // TODO : boxes here
 
-  ObjectBox._create(this.store) {
+  ObjectBoxProvider._create(this._store) {
     // TODO : create boxes
 
     /*if (Sync.isAvailable()) {
@@ -25,8 +26,25 @@ class ObjectBox {
     // TODO : demo data here
   }
 
+  int putOrder(ShopOrderEntity entity) {
+    return _store.box<ShopOrderEntity>().put(entity);
+  }
+
+  bool removeOrder(int id) {
+    return _store.box<ShopOrderEntity>().remove(id);
+  }
+
+  /// fails if id not found
+  int updateOrder(ShopOrderEntity entity) {
+    return _store.box<ShopOrderEntity>().put(entity, mode: PutMode.update);
+  }
+
+  ShopOrderEntity? getOrder(int id) {
+    return _store.box<ShopOrderEntity>().get(id);
+  }
+
   /// Create an instance of ObjectBox to use throughout the app.
-  static Future<ObjectBox> create() async {
+  static Future<ObjectBoxProvider> create() async {
     final docsDir = await getApplicationDocumentsDirectory();
 
     // Future<Store> openStore() {...} is defined in the generated objectbox.g.dart
@@ -34,11 +52,11 @@ class ObjectBox {
       directory: p.join(docsDir.path, "obx-example"),
     );
 
-    return ObjectBox._create(store);
+    return ObjectBoxProvider._create(store);
   }
 
   void dispose() {
-    store.close();
+    _store.close();
     // _syncClient.close();
   }
 }

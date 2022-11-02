@@ -1,0 +1,1 @@
+export 'object_box_shop_order_repository.dart';

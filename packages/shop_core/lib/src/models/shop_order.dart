@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:shop_core/shop_core.dart';
 import 'package:shop_core/src/models/customer.dart';
 
 class ShopOrder extends Equatable {
