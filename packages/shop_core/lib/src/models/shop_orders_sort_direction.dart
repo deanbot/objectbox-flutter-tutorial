@@ -1,0 +1,1 @@
+enum ShopOrdersSortDirection { ascending, descending }
