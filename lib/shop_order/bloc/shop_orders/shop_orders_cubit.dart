@@ -11,9 +11,7 @@ class ShopOrdersCubit extends Cubit<ShopOrdersState> {
     required ShopOrderRepository shopOrderRepository,
   })  : _shopOrderRepository = shopOrderRepository,
         super(ShopOrdersInitial()) {
-    // TODO : subscribe to stream
     _subscription = _shopOrderRepository.list().listen((value) {
-      // consume in mem sort
       emit(ShopOrdersUpdated(
         shopOrders: value,
         sort: state.sort,
@@ -23,7 +21,7 @@ class ShopOrdersCubit extends Cubit<ShopOrdersState> {
   }
 
   final ShopOrderRepository _shopOrderRepository;
-  late StreamSubscription<List<ShopOrder>> _subscription;
+  late final StreamSubscription<List<ShopOrder>> _subscription;
 
   @override
   Future<void> close() {
