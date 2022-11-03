@@ -22,24 +22,43 @@ class ShopOrdersDataTable extends StatelessWidget {
           ),
         ),
       ],
-      child: BlocListener<ShopOrderRemoveCubit, ShopOrderRemoveState>(
-        listener: (context, state) {
-          if (state is ShopOrderRemoveSuccess) {
-            // show success message
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(SnackBar(
-                content: Text('Order removed'),
-              ));
-          } else if (state is ShopOrderRemoveError) {
-            // show success message
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(SnackBar(
-                content: Text('Problem removing order'),
-              ));
-          }
-        },
+      child: MultiBlocListener(
+        listeners: [
+          // notify user re update events
+          BlocListener<ShopOrdersCubit, ShopOrdersState>(
+            listener: (context, state) {
+              if (state is ShopOrdersUpdateError) {
+                // show error message
+                ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(SnackBar(
+                    content: Text('Problem updating orders.'),
+                  ));
+              }
+            },
+          ),
+
+          // notify user re deletion events
+          BlocListener<ShopOrderRemoveCubit, ShopOrderRemoveState>(
+            listener: (context, state) {
+              if (state is ShopOrderRemoveSuccess) {
+                // show success message
+                ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(SnackBar(
+                    content: Text('Order removed'),
+                  ));
+              } else if (state is ShopOrderRemoveError) {
+                // show success message
+                ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(SnackBar(
+                    content: Text('Problem removing order'),
+                  ));
+              }
+            },
+          )
+        ],
         child: const _TableWrapper(
           child: _Table(),
         ),
@@ -57,6 +76,7 @@ class _Table extends StatefulWidget {
 
 class _TableState extends State<_Table> {
   static const _indexId = 0;
+  static const _indexCustomer = 1;
   static const _indexPrice = 2;
 
   @override
@@ -77,6 +97,7 @@ class _TableState extends State<_Table> {
             ),
             DataColumn(
               label: Text('Customer'),
+              onSort: _onDataColumnSort,
             ),
             // i.e. _indexPrice
             DataColumn(
@@ -117,7 +138,7 @@ class _TableState extends State<_Table> {
 
   void _onDataColumnSort(int columnIndex, bool ascending) {
     final sort = _sortByIndex(columnIndex);
-    if (sort == null){
+    if (sort == null) {
       return;
     }
 
@@ -165,11 +186,12 @@ class _TableState extends State<_Table> {
     return sort;
   }
 
-
   /// Return [DataTable] sort column index by sort
   int _indexBySort(ShopOrdersSort sort) {
     if (sort == ShopOrdersSort.price) {
       return _indexPrice;
+    } else if (sort == ShopOrdersSort.customer) {
+      return _indexCustomer;
     } else {
       return _indexId;
     }

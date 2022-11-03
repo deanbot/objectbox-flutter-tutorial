@@ -15,7 +15,7 @@ class ShopOrdersCubit extends Cubit<ShopOrdersState> {
   }
 
   final ShopOrderRepository _shopOrderRepository;
-  late final StreamSubscription<ShopOrdersResult> _subscription;
+  late StreamSubscription<ShopOrdersResult> _subscription;
 
   @override
   Future<void> close() async {
@@ -52,9 +52,11 @@ class ShopOrdersCubit extends Cubit<ShopOrdersState> {
     }
   }
 
-  void _handleUpdated(value) => emit(ShopOrdersUpdated(
-        shopOrders: value.results,
-        sort: value.sort,
-        direction: value.direction,
-      ));
+  void _handleUpdated(value) {
+    emit(ShopOrdersUpdated(
+      shopOrders: value.results,
+      sort: value.sort,
+      direction: value.direction,
+    ));
+  }
 }

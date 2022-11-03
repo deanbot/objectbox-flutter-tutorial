@@ -65,8 +65,8 @@ class ObjectBoxShopOrderRepository extends ShopOrderRepository {
             event.find().map((element) => element.toDomain).toList())
         .map<ShopOrdersResult>((results) => ShopOrdersResult(
               results: results,
-              sort: _defaultSort,
-              direction: _defaultDirection,
+              sort: sort ?? _defaultSort,
+              direction: direction ?? _defaultDirection,
             ));
   }
 
@@ -76,6 +76,8 @@ class ObjectBoxShopOrderRepository extends ShopOrderRepository {
     switch (sort) {
       case ShopOrdersSort.price:
         return ShopOrderEntity_.price;
+      case ShopOrdersSort.customer:
+        return ShopOrderEntity_.customer;
       case ShopOrdersSort.id:
       case ShopOrdersSort.none:
         return ShopOrderEntity_.id;
