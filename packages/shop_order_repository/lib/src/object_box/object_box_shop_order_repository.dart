@@ -5,8 +5,9 @@ import 'package:object_box/object_box.dart';
 
 /// [ShopOrderRepository] implementation using [ObjectBoxProvider]
 class ObjectBoxShopOrderRepository extends ShopOrderRepository {
-  const ObjectBoxShopOrderRepository({required ObjectBoxProvider objectBox})
-      : _objectBox = objectBox;
+  const ObjectBoxShopOrderRepository({
+    required ObjectBoxProvider objectBox,
+  }) : _objectBox = objectBox;
 
   final ObjectBoxProvider _objectBox;
 
@@ -38,6 +39,9 @@ class ObjectBoxShopOrderRepository extends ShopOrderRepository {
   static const _defaultSort = ShopOrdersSort.id;
   static const _defaultDirection = ShopOrdersSortDirection.ascending;
 
+  /// Return reactive stream of ShopOrderResults
+  ///
+  /// If changing sort/filter, the previous subscription should first be cancelled
   @override
   Stream<ShopOrdersResult> results({
     ShopOrdersSort? sort = _defaultSort,
@@ -47,6 +51,7 @@ class ObjectBoxShopOrderRepository extends ShopOrderRepository {
     final flags = _flagsByDirection(direction ?? _defaultDirection);
     final builder = _objectBox.shopOrdersBox.query();
     builder
+      // TODO : can order be called in a way that affects existing stream instead of requiring re-subscription?
       ..order(
         property,
         flags: flags,
@@ -54,8 +59,8 @@ class ObjectBoxShopOrderRepository extends ShopOrderRepository {
     return builder
         // TODO : should this be cached and cancelled?
         .watch(
-            triggerImmediately:
-                true) // final _subscription = ... subscription.cancel
+          triggerImmediately: true,
+        ) // final _subscription = ... subscription.cancel
         .map<List<ShopOrder>>((Query<ShopOrderEntity> event) =>
             event.find().map((element) => element.toDomain).toList())
         .map<ShopOrdersResult>((results) => ShopOrdersResult(

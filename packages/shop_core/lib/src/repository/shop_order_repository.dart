@@ -8,10 +8,7 @@ abstract class ShopOrderRepository {
 
   /// Stream of [ShopOrdersResult]
   ///
-  /// [add], [remove], [update] actions are reflected in stream.
-  ///
-  /// If changing sort/filter, the previous results
-  /// stream subscription should be manually cancelled
+  /// [add], [remove], [update] actions are reflected in stream
   Stream<ShopOrdersResult> results({
     ShopOrdersSort? sort,
     ShopOrdersSortDirection? direction,
